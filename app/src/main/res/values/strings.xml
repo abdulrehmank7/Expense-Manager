@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Expense Manager</string>
+
+    <string name="login_sign_up">Login/Sign up</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="enter_username">Enter username</string>
+    <string name="enter_password">Enter password</string>
+    <string name="login">Login</string>
+    <string name="not_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="already_have_account">Already have an account?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="manage_budget">Manage Budget</string>
+    <string name="currency_conversion">Currency Conversion</string>
+    <string name="enter_expense">Enter Expense</string>
+    <string name="choose_expense_type">Choose Expense Type</string>
+    <string name="choose_date">Choose Date</string>
+</resources>
