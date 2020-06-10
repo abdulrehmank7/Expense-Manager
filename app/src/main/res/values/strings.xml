@@ -10,12 +10,12 @@
     <string name="sign_up">Sign up</string>
     <string name="confirm_password">Confirm password</string>
     <string name="already_have_account">Already have an account?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="add_expense">Add Expense</string>
     <string name="manage_budget">Manage Budget</string>
     <string name="currency_conversion">Currency Conversion</string>
     <string name="enter_expense">Enter Expense</string>
     <string name="choose_expense_type">Choose Expense Type</string>
     <string name="choose_date">Choose Date</string>
+    <string name="current_month_expenses">Current Month Expenses</string>
 </resources>

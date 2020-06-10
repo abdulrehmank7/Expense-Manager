@@ -31,16 +31,29 @@ public class Constants {
 
     public static ArrayList<ExpenseType> getAllExpenseType() {
         ArrayList<ExpenseType> types = new ArrayList<>();
+        ArrayList<Integer> colors = getColorList();
 
-        types.add(new ExpenseType(EXPENSE_RENT, R.drawable.ic_mortgage, 0));
-        types.add(new ExpenseType(EXPENSE_GROCERIES, R.drawable.ic_groceries, 0));
-        types.add(new ExpenseType(EXPENSE_ONLINE_SHOPPING, R.drawable.ic_clothes, 0));
-        types.add(new ExpenseType(EXPENSE_GENERAL_MAINTENANCE, R.drawable.ic_gas_station, 0));
-        types.add(new ExpenseType(EXPENSE_HEALTH_CARE, R.drawable.ic_medicine, 0));
-        types.add(new ExpenseType(EXPENSE_FOOD_BEVERAGES, R.drawable.ic_cafe, 0));
-        types.add(new ExpenseType(EXPENSE_MISCELLANEOUS, R.drawable.ic_expense, 0));
+        types.add(new ExpenseType(EXPENSE_RENT, R.drawable.ic_mortgage, colors.get(0)));
+        types.add(new ExpenseType(EXPENSE_GROCERIES, R.drawable.ic_groceries, colors.get(1)));
+        types.add(new ExpenseType(EXPENSE_ONLINE_SHOPPING, R.drawable.ic_clothes, colors.get(2)));
+        types.add(new ExpenseType(EXPENSE_GENERAL_MAINTENANCE, R.drawable.ic_gas_station, colors.get(3)));
+        types.add(new ExpenseType(EXPENSE_HEALTH_CARE, R.drawable.ic_medicine, colors.get(4)));
+        types.add(new ExpenseType(EXPENSE_FOOD_BEVERAGES, R.drawable.ic_cafe, colors.get(5)));
+        types.add(new ExpenseType(EXPENSE_MISCELLANEOUS, R.drawable.ic_expense, colors.get(6)));
 
         return types;
+    }
+
+    public static ArrayList<Integer> getColorList() {
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(R.color.blue);
+        colors.add(R.color.grey);
+        colors.add(R.color.purple);
+        colors.add(R.color.pink);
+        colors.add(R.color.orange);
+        colors.add(R.color.red);
+        colors.add(R.color.green);
+        return colors;
     }
 
 }

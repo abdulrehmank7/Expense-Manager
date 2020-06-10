@@ -23,6 +23,6 @@ public interface ExpenseDao {
     void insert(Expense var2);
 
     @Query("SELECT * FROM EXPENSE WHERE uid = :uid")
-    List<Expense> getAllUserExpense(String uid);
+    List<Expense> getAllUserExpense(Integer uid);
 
 }

@@ -79,9 +79,12 @@ public class ViewUtilsKt {
         dialogBuilder.show();
     }
 
-    @Nullable
     public static Drawable getDrawableRes(@NotNull Context context, int resId) {
         return ContextCompat.getDrawable(context, resId);
+    }
+
+    public static int getColorRes(@NotNull Context context, int resId) {
+        return ContextCompat.getColor(context, resId);
     }
 
     public static void initVerticalAdapter(@NotNull RecyclerView recyclerView,
