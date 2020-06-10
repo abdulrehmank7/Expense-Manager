@@ -9,6 +9,7 @@ import com.arkapp.expensemanager.R;
 import com.arkapp.expensemanager.data.models.ExpenseType;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This file contain all the constant value used in the app
@@ -17,6 +18,7 @@ public class Constants {
 
     public static String ENTERED_USER_NAME = "";
     public static ExpenseType SELECTED_EXPENSE_TYPE = getAllExpenseType().get(6);
+    public static Date SELECTED_EXPENSE_DATE = new Date();
 
     public final static String EXPENSE_RENT = "Rent";
     public final static String EXPENSE_GROCERIES = "Groceries";

@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.arkapp.expensemanager.data.models.UserLogin;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static com.arkapp.expensemanager.data.preferences.constants.PREF_LOGGED_IN;
+import static com.arkapp.expensemanager.data.preferences.constants.PREF_USER_LOGIN;
 
 /**
  * This is the UTILITY class for using shared preferences easily.
@@ -41,4 +44,18 @@ public class PrefRepository {
         return pref.getBoolean(PREF_LOGGED_IN, false);
     }
 
+    @Nullable
+    public UserLogin getCurrentUser() {
+        String var1 = pref.getString(PREF_USER_LOGIN, "");
+        if (var1.isEmpty()) {
+            return null;
+        } else
+            return gson.fromJson(var1, UserLogin.class);
+    }
+
+    public void setCurrentUser(@NotNull UserLogin userLogin) {
+        String var10002 = gson.toJson(userLogin);
+        editor.putString(PREF_USER_LOGIN, var10002);
+        editor.commit();
+    }
 }

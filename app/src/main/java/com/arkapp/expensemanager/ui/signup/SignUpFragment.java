@@ -27,7 +27,8 @@ import static com.arkapp.expensemanager.utils.ViewUtilsKt.enableTouch;
 import static com.arkapp.expensemanager.utils.ViewUtilsKt.hide;
 import static com.arkapp.expensemanager.utils.ViewUtilsKt.isDoubleClicked;
 import static com.arkapp.expensemanager.utils.ViewUtilsKt.show;
-import static com.arkapp.expensemanager.utils.ViewUtilsKt.toast;
+import static com.arkapp.expensemanager.utils.ViewUtilsKt.showSnack;
+import static com.arkapp.expensemanager.utils.ViewUtilsKt.toastShort;
 
 
 public class SignUpFragment extends Fragment {
@@ -186,7 +187,7 @@ public class SignUpFragment extends Fragment {
                 ENTERED_USER_NAME = binding.userNameEt.getText().toString();
 
                 if (userData != null && userData.isEmpty()) {
-                    toast(requireContext(), "Login failed!");
+                    showSnack(binding.parent, "Login failed!");
                     binding.userName.setError("Check username and password!");
                     hide(binding.loginProgress);
                     enableTouch(requireActivity().getWindow());
@@ -213,7 +214,7 @@ public class SignUpFragment extends Fragment {
 
             public void onTaskEnded(@Nullable List<UserLogin> userData) {
                 if (userData != null && !userData.isEmpty()) {
-                    toast(requireContext(), "Signup failed!");
+                    showSnack(binding.parent, "Signup failed!");
                     binding.signUpUserName.setError("Username already exits!");
                     hide(binding.signupProgress);
                     enableTouch(requireActivity().getWindow());
@@ -231,7 +232,7 @@ public class SignUpFragment extends Fragment {
 
     //Opening the app on successfull signup or login
     private void onLoginSuccess() {
-        toast(requireContext(), "Login success");
+        toastShort(requireContext(), "Login success");
         prefRepository.setLoggedIn(true);
         findNavController(this).navigate(R.id.action_signupFragment_to_splashFragment);
     }

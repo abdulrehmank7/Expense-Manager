@@ -11,18 +11,24 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.arkapp.expensemanager.R;
+import com.arkapp.expensemanager.data.repository.PrefRepository;
 
 import org.jetbrains.annotations.NotNull;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
+import static com.arkapp.expensemanager.utils.Constants.ENTERED_USER_NAME;
 
 public class HomeFragment extends Fragment {
+
+    private PrefRepository prefRepository;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        prefRepository = new PrefRepository(getContext());
+        addUserName();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -40,5 +46,11 @@ public class HomeFragment extends Fragment {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void addUserName() {
+        if (ENTERED_USER_NAME.length() > 0)
+            new CheckLoggedInUserAsyncTask(requireActivity(), prefRepository).execute();
+
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.addExpense.AddExpenseFragment">
@@ -76,6 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/ivExpenseIcon"
                     app:layout_constraintEnd_toStartOf="@+id/imageView"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -125,6 +128,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_drop_down"
+                    android:tint="@color/colorPrimaryCustomDark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/tvDate"
                     android:layout_width="wrap_content"
@@ -132,22 +146,26 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView2"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:padding="4dp"
                     android:src="@drawable/ic_calendar"
                     android:tint="@color/colorPrimaryCustomDark"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -160,8 +178,8 @@
             android:layout_margin="18dp"
             android:text="@string/add_expense"
             app:cornerRadius="18dp"
-            app:iconGravity="textEnd"
             app:icon="@drawable/ic_add"
+            app:iconGravity="textEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

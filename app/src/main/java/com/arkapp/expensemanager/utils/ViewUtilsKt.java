@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -136,6 +137,30 @@ public class ViewUtilsKt {
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(),
                                                  InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    public static void showSnack(View view, String msg) {
+        try {
+            Snackbar.make(
+                    view,
+                    msg,
+                    Snackbar.LENGTH_SHORT
+            ).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showSnackLong(View view, String msg) {
+        try {
+            Snackbar.make(
+                    view,
+                    msg,
+                    Snackbar.LENGTH_LONG
+            ).show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
