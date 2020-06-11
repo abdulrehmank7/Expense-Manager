@@ -13,8 +13,8 @@ import org.jetbrains.annotations.Nullable;
 
 
 /**
- * User login SQL table is created using the following class definition
- * This sql table is used for storing login details of user.
+ * EXPENSE SQL table is created using the following class definition
+ * This sql table is used for storing expenses of user.
  */
 @Entity(tableName = "EXPENSE")
 public class Expense {

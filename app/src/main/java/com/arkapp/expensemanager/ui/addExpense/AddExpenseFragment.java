@@ -40,7 +40,7 @@ public class AddExpenseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAddExpenseBinding.inflate(inflater);
-        prefRepository = new PrefRepository(getContext());
+        prefRepository = new PrefRepository(requireContext());
         return binding.getRoot();
     }
 
@@ -101,8 +101,8 @@ public class AddExpenseFragment extends Fragment {
     }
 
     private void initExpenseTypeUI() {
-        BottomeSheetExpenseTypeBinding dialogBinding = BottomeSheetExpenseTypeBinding.inflate(LayoutInflater.from(getContext()));
-        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        BottomeSheetExpenseTypeBinding dialogBinding = BottomeSheetExpenseTypeBinding.inflate(LayoutInflater.from(requireContext()));
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         dialog.setContentView(dialogBinding.getRoot());
         dialog.setOnShowListener(dialog12 -> {
             View view = (((BottomSheetDialog) dialog12).findViewById(com.google.android.material.R.id.design_bottom_sheet));

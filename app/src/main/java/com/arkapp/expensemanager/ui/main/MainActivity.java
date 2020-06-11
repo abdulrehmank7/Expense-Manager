@@ -1,6 +1,7 @@
 package com.arkapp.expensemanager.ui.main;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -8,6 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.arkapp.expensemanager.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import static androidx.navigation.ActivityKt.findNavController;
 
@@ -31,5 +34,13 @@ public class MainActivity extends AppCompatActivity {
                     else
                         getSupportActionBar().hide();
                 });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            this.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
