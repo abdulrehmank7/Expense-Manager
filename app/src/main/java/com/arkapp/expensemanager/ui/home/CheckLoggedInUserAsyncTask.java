@@ -24,12 +24,16 @@ public class CheckLoggedInUserAsyncTask extends AsyncTask<Void, Void, List<UserL
     @SuppressLint("StaticFieldLeak")
     private final Activity context;
     private final PrefRepository prefRepository;
+    private final ExpenseListener listener;
 
     public CheckLoggedInUserAsyncTask(@NotNull Activity context,
-                                      @NotNull PrefRepository prefRepository) {
+                                      @NotNull PrefRepository prefRepository,
+                                      ExpenseListener listener) {
         super();
         this.context = context;
         this.prefRepository = prefRepository;
+        this.listener = listener;
+
     }
 
     @Nullable
@@ -43,6 +47,7 @@ public class CheckLoggedInUserAsyncTask extends AsyncTask<Void, Void, List<UserL
     @Override
     protected void onPostExecute(@Nullable List<UserLogin> data) {
         prefRepository.setCurrentUser(data.get(0));
+        new GetAllExpenseTask(context, prefRepository, listener).execute();
     }
 
 }

@@ -55,5 +55,4 @@ public class Constants {
         colors.add(R.color.green);
         return colors;
     }
-
 }

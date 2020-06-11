@@ -17,5 +17,7 @@
     <string name="enter_expense">Enter Expense</string>
     <string name="choose_expense_type">Choose Expense Type</string>
     <string name="choose_date">Choose Date</string>
-    <string name="current_month_expenses">Current Month Expenses</string>
+    <string name="month_expenses">Month Expenses</string>
+    <string name="current_month">Current Month</string>
+    <string name="previous_month">Previous Month</string>
 </resources>

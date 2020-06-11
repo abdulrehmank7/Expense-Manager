@@ -94,8 +94,8 @@ public class AddExpenseFragment extends Fragment {
                                                                currentDate.get(Calendar.MONTH),
                                                                currentDate.get(Calendar.DAY_OF_MONTH));
 
-            //Setting minimim date as current date.
-            //datePicker.getDatePicker().setMinDate(currentDate.getTimeInMillis());
+            //Setting minimum date as current date.
+            datePicker.getDatePicker().setMaxDate(currentDate.getTimeInMillis());
             datePicker.show();
         });
     }

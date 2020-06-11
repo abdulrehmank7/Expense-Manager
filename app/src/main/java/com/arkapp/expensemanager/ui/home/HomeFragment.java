@@ -1,5 +1,6 @@
 package com.arkapp.expensemanager.ui.home;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import com.arkapp.expensemanager.data.models.Expense;
 import com.arkapp.expensemanager.data.models.ExpenseType;
 import com.arkapp.expensemanager.data.repository.PrefRepository;
 import com.arkapp.expensemanager.databinding.FragmentHomeBinding;
+import com.arkapp.expensemanager.utils.PieValueFormatter;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.PieData;
@@ -30,6 +32,8 @@ import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 import static com.arkapp.expensemanager.utils.CommonUtils.convertExpenseType;
+import static com.arkapp.expensemanager.utils.CommonUtils.filterCurrentMonth;
+import static com.arkapp.expensemanager.utils.CommonUtils.filterPreviousMonth;
 import static com.arkapp.expensemanager.utils.Constants.ENTERED_USER_NAME;
 import static com.arkapp.expensemanager.utils.Constants.EXPENSE_FOOD_BEVERAGES;
 import static com.arkapp.expensemanager.utils.Constants.EXPENSE_GENERAL_MAINTENANCE;
@@ -39,14 +43,15 @@ import static com.arkapp.expensemanager.utils.Constants.EXPENSE_MISCELLANEOUS;
 import static com.arkapp.expensemanager.utils.Constants.EXPENSE_ONLINE_SHOPPING;
 import static com.arkapp.expensemanager.utils.Constants.EXPENSE_RENT;
 import static com.arkapp.expensemanager.utils.Constants.getAllExpenseType;
-import static com.arkapp.expensemanager.utils.Constants.getColorList;
 import static com.arkapp.expensemanager.utils.ViewUtilsKt.getColorRes;
+import static com.arkapp.expensemanager.utils.ViewUtilsKt.getDrawableRes;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ExpenseListener {
 
     private PrefRepository prefRepository;
     private FragmentHomeBinding binding;
-    private ExpenseListener listener;
+    private ArrayList<Expense> currentMonthExpenses;
+    private ArrayList<Expense> previousMonthExpenses;
 
 
     @Override
@@ -63,143 +68,201 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listener = new ExpenseListener() {
-            @Override
-            public void onExpenseFetched(List<Expense> data) {
+        binding.pieChart.animateXY(1500, 1500);
+        binding.pieChart.getLegend().setWordWrapEnabled(true);
+        binding.pieChart.getLegend().setTextSize(16);
+        binding.pieChart.setHoleColor(getColorRes(getContext(), R.color.transparent));
+        binding.pieChart.getDescription().setEnabled(false);
 
-                float rent = 0f, groceries = 0f, shopping = 0f, maintenance = 0f, health = 0f, food = 0f, other = 0f;
-                ArrayList<PieEntry> chartData = new ArrayList<>();
-                ArrayList<LegendEntry> legendEntries = new ArrayList<>();
+        binding.btAddExpense.setOnClickListener(v -> findNavController(HomeFragment.this).navigate(R.id.action_homeFragment_to_addExpenseFragment));
 
-                for (Expense expense : data) {
-                    ExpenseType type = convertExpenseType(expense.getExpenseType());
-                    switch (type.getName()) {
-                        case EXPENSE_RENT:
-                            rent += Double.parseDouble(expense.getExpenseValue());
-                            break;
-                        case EXPENSE_GROCERIES:
-                            groceries += Double.parseDouble(expense.getExpenseValue());
-                            break;
-                        case EXPENSE_ONLINE_SHOPPING:
-                            shopping += Double.parseDouble(expense.getExpenseValue());
-                            break;
-                        case EXPENSE_GENERAL_MAINTENANCE:
-                            maintenance += Double.parseDouble(expense.getExpenseValue());
-                            break;
-                        case EXPENSE_HEALTH_CARE:
-                            health += Double.parseDouble(expense.getExpenseValue());
-                            break;
-                        case EXPENSE_FOOD_BEVERAGES:
-                            food += Double.parseDouble(expense.getExpenseValue());
-                            break;
-                        case EXPENSE_MISCELLANEOUS:
-                            other += Double.parseDouble(expense.getExpenseValue());
-                            break;
-                    }
-                }
+        initMonthButtons();
+    }
 
-                for (ExpenseType expenseType : getAllExpenseType()) {
-                    switch (expenseType.getName()) {
-                        case EXPENSE_RENT:
-                            chartData.add(new PieEntry(rent, expenseType.getName()));
-                            legendEntries.add(new LegendEntry(
-                                    expenseType.getName(),
-                                    Legend.LegendForm.CIRCLE,
-                                    18f, 18f,
-                                    null,
-                                    getColorRes(getContext(), expenseType.getColor())));
-                            break;
-                        case EXPENSE_GROCERIES:
-                            chartData.add(new PieEntry(groceries, expenseType.getName()));
-                            legendEntries.add(new LegendEntry(
-                                    expenseType.getName(),
-                                    Legend.LegendForm.CIRCLE,
-                                    18f, 18f,
-                                    null,
-                                    getColorRes(getContext(), expenseType.getColor())));
-                            break;
-                        case EXPENSE_ONLINE_SHOPPING:
-                            chartData.add(new PieEntry(shopping, expenseType.getName()));
-                            legendEntries.add(new LegendEntry(
-                                    expenseType.getName(),
-                                    Legend.LegendForm.CIRCLE,
-                                    18f, 18f,
-                                    null,
-                                    getColorRes(getContext(), expenseType.getColor())));
-                            break;
-                        case EXPENSE_GENERAL_MAINTENANCE:
-                            chartData.add(new PieEntry(maintenance, expenseType.getName()));
-                            legendEntries.add(new LegendEntry(
-                                    expenseType.getName(),
-                                    Legend.LegendForm.CIRCLE,
-                                    18f, 18f,
-                                    null,
-                                    getColorRes(getContext(), expenseType.getColor())));
-                            break;
-                        case EXPENSE_HEALTH_CARE:
-                            chartData.add(new PieEntry(health, expenseType.getName()));
-                            legendEntries.add(new LegendEntry(
-                                    expenseType.getName(),
-                                    Legend.LegendForm.CIRCLE,
-                                    18f, 18f,
-                                    null,
-                                    getColorRes(getContext(), expenseType.getColor())));
-                            break;
-                        case EXPENSE_FOOD_BEVERAGES:
-                            chartData.add(new PieEntry(food, expenseType.getName()));
-                            legendEntries.add(new LegendEntry(
-                                    expenseType.getName(),
-                                    Legend.LegendForm.CIRCLE,
-                                    18f, 18f,
-                                    null,
-                                    getColorRes(getContext(), expenseType.getColor())));
-                            break;
-                        case EXPENSE_MISCELLANEOUS:
-                            chartData.add(new PieEntry(other, expenseType.getName()));
-                            legendEntries.add(new LegendEntry(
-                                    expenseType.getName(),
-                                    Legend.LegendForm.CIRCLE,
-                                    18f, 18f,
-                                    null,
-                                    getColorRes(getContext(), expenseType.getColor())));
-                            break;
-                    }
-                }
+    @Override
+    public void onExpenseFetched(List<Expense> data) {
+        currentMonthExpenses = filterCurrentMonth(data);
+        previousMonthExpenses = filterPreviousMonth(data);
 
-                PieDataSet dataSet = new PieDataSet(chartData, "Expense this month");
-                ArrayList<Integer> color = getColorList();
+        setPieData(currentMonthExpenses);
+    }
 
-                int[] COLORS_LIST = {getColorRes(getContext(), color.get(0)),
-                        getColorRes(getContext(), color.get(1)),
-                        getColorRes(getContext(), color.get(2)),
-                        getColorRes(getContext(), color.get(3)),
-                        getColorRes(getContext(), color.get(4)),
-                        getColorRes(getContext(), color.get(5)),
-                        getColorRes(getContext(), color.get(6))};
-                dataSet.setColors(COLORS_LIST);
+    @Override
+    public void onError() {
 
-                PieData pieData = new PieData(dataSet);
-                pieData.setValueTextSize(18f);
+    }
 
-                binding.pieChart.animateXY(1500, 1500);
-                binding.pieChart.getLegend().setCustom(legendEntries);
-                binding.pieChart.getLegend().setWordWrapEnabled(true);
-                binding.pieChart.getLegend().setTextSize(16);
-                binding.pieChart.setHoleColor(getColorRes(getContext(), R.color.transparent));
-                binding.pieChart.getDescription().setEnabled(false);
+    private void initMonthButtons() {
+        binding.btCurrentMonth.setOnClickListener(v -> {
+            binding.btCurrentMonth.setBackground(getDrawableRes(getContext(), R.drawable.bg_unselected_start));
+            binding.btPreviousMonth.setBackground(getDrawableRes(getContext(), R.drawable.bg_selected_end));
 
-                binding.pieChart.setData(pieData);
+            binding.btCurrentMonth.setTextColor(getColorRes(getContext(), R.color.black));
+            binding.btPreviousMonth.setTextColor(getColorRes(getContext(), R.color.white));
+
+            binding.btCurrentMonth.setTypeface(null, Typeface.BOLD);
+            binding.btPreviousMonth.setTypeface(null, Typeface.NORMAL);
+
+            setPieData(currentMonthExpenses);
+        });
+
+        binding.btPreviousMonth.setOnClickListener(v -> {
+            binding.btCurrentMonth.setBackground(getDrawableRes(getContext(), R.drawable.bg_selected_start));
+            binding.btPreviousMonth.setBackground(getDrawableRes(getContext(), R.drawable.bg_unselected_end));
+
+            binding.btCurrentMonth.setTextColor(getColorRes(getContext(), R.color.white));
+            binding.btPreviousMonth.setTextColor(getColorRes(getContext(), R.color.black));
+
+            binding.btCurrentMonth.setTypeface(null, Typeface.NORMAL);
+            binding.btPreviousMonth.setTypeface(null, Typeface.BOLD);
+
+            setPieData(previousMonthExpenses);
+        });
+    }
+
+    private void setPieData(List<Expense> data) {
+        binding.pieChart.clear();
+
+        ArrayList<PieEntry> chartData = new ArrayList<>();
+        ArrayList<LegendEntry> legendEntries = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        float rent = 0f, groceries = 0f, shopping = 0f, maintenance = 0f, health = 0f, food = 0f, other = 0f;
+
+        for (Expense expense : data) {
+            ExpenseType type = convertExpenseType(expense.getExpenseType());
+            switch (type.getName()) {
+                case EXPENSE_RENT:
+                    rent += Double.parseDouble(expense.getExpenseValue());
+                    break;
+                case EXPENSE_GROCERIES:
+                    groceries += Double.parseDouble(expense.getExpenseValue());
+                    break;
+                case EXPENSE_ONLINE_SHOPPING:
+                    shopping += Double.parseDouble(expense.getExpenseValue());
+                    break;
+                case EXPENSE_GENERAL_MAINTENANCE:
+                    maintenance += Double.parseDouble(expense.getExpenseValue());
+                    break;
+                case EXPENSE_HEALTH_CARE:
+                    health += Double.parseDouble(expense.getExpenseValue());
+                    break;
+                case EXPENSE_FOOD_BEVERAGES:
+                    food += Double.parseDouble(expense.getExpenseValue());
+                    break;
+                case EXPENSE_MISCELLANEOUS:
+                    other += Double.parseDouble(expense.getExpenseValue());
+                    break;
             }
+        }
 
-            @Override
-            public void onError() { }
-        };
+        for (ExpenseType expenseType : getAllExpenseType()) {
+            switch (expenseType.getName()) {
+                case EXPENSE_RENT:
+                    if (rent > 0) {
+                        chartData.add(new PieEntry(rent, expenseType.getName()));
+                        colors.add(getColorRes(getContext(), expenseType.getColor()));
+                    }
+                    legendEntries.add(new LegendEntry(
+                            expenseType.getName(),
+                            Legend.LegendForm.CIRCLE,
+                            18f, 18f,
+                            null,
+                            getColorRes(getContext(), expenseType.getColor())));
+                    break;
+                case EXPENSE_GROCERIES:
+                    if (groceries > 0) {
+                        chartData.add(new PieEntry(groceries, expenseType.getName()));
+                        colors.add(getColorRes(getContext(), expenseType.getColor()));
+                    }
+                    legendEntries.add(new LegendEntry(
+                            expenseType.getName(),
+                            Legend.LegendForm.CIRCLE,
+                            18f, 18f,
+                            null,
+                            getColorRes(getContext(), expenseType.getColor())));
+                    break;
+                case EXPENSE_ONLINE_SHOPPING:
+                    if (shopping > 0) {
+                        chartData.add(new PieEntry(shopping, expenseType.getName()));
+                        colors.add(getColorRes(getContext(), expenseType.getColor()));
+                    }
+                    legendEntries.add(new LegendEntry(
+                            expenseType.getName(),
+                            Legend.LegendForm.CIRCLE,
+                            18f, 18f,
+                            null,
+                            getColorRes(getContext(), expenseType.getColor())));
+                    break;
+                case EXPENSE_GENERAL_MAINTENANCE:
+                    if (maintenance > 0) {
+                        chartData.add(new PieEntry(maintenance, expenseType.getName()));
+                        colors.add(getColorRes(getContext(), expenseType.getColor()));
+                    }
+                    legendEntries.add(new LegendEntry(
+                            expenseType.getName(),
+                            Legend.LegendForm.CIRCLE,
+                            18f, 18f,
+                            null,
+                            getColorRes(getContext(), expenseType.getColor())));
+                    break;
+                case EXPENSE_HEALTH_CARE:
+                    if (health > 0) {
+                        chartData.add(new PieEntry(health, expenseType.getName()));
+                        colors.add(getColorRes(getContext(), expenseType.getColor()));
+                    }
+                    legendEntries.add(new LegendEntry(
+                            expenseType.getName(),
+                            Legend.LegendForm.CIRCLE,
+                            18f, 18f,
+                            null,
+                            getColorRes(getContext(), expenseType.getColor())));
+                    break;
+                case EXPENSE_FOOD_BEVERAGES:
+                    if (food > 0) {
+                        chartData.add(new PieEntry(food, expenseType.getName()));
+                        colors.add(getColorRes(getContext(), expenseType.getColor()));
+                    }
+                    legendEntries.add(new LegendEntry(
+                            expenseType.getName(),
+                            Legend.LegendForm.CIRCLE,
+                            18f, 18f,
+                            null,
+                            getColorRes(getContext(), expenseType.getColor())));
+                    break;
+                case EXPENSE_MISCELLANEOUS:
+                    if (other > 0) {
+                        chartData.add(new PieEntry(other, expenseType.getName()));
+                        colors.add(getColorRes(getContext(), expenseType.getColor()));
+                    }
+                    legendEntries.add(new LegendEntry(
+                            expenseType.getName(),
+                            Legend.LegendForm.CIRCLE,
+                            18f, 18f,
+                            null,
+                            getColorRes(getContext(), expenseType.getColor())));
+                    break;
+            }
+        }
+
+        PieDataSet dataSet = new PieDataSet(chartData, "Expense this month");
+        dataSet.setValueFormatter(new PieValueFormatter());
+        dataSet.setColors(colors);
+
+        PieData pieData = new PieData(dataSet);
+        pieData.setValueTextSize(18f);
+
+        binding.pieChart.getLegend().setCustom(legendEntries);
+        binding.pieChart.setData(pieData);
+
+        binding.tvTotal.setText(String.format("Total - $%s", rent + groceries + shopping + maintenance + health + food + other));
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        new GetAllExpenseTask(getActivity(), prefRepository, listener).execute();
+        if (prefRepository.getCurrentUser() != null)
+            new GetAllExpenseTask(getActivity(), prefRepository, this).execute();
     }
 
     //Used for showing the edit icon in the toolbar
@@ -219,8 +282,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void addUserName() {
-        if (ENTERED_USER_NAME.length() > 0)
-            new CheckLoggedInUserAsyncTask(requireActivity(), prefRepository).execute();
+        if (ENTERED_USER_NAME.length() > 0) {
+            new CheckLoggedInUserAsyncTask(requireActivity(), prefRepository, this).execute();
+        }
 
     }
 }
