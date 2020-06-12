@@ -25,4 +25,5 @@
     <string name="enter_this_month_budget">Enter this month Budget</string>
     <string name="enter_budget">Enter Budget</string>
     <string name="done">Done</string>
+    <string name="change_budget">Change Budget</string>
 </resources>

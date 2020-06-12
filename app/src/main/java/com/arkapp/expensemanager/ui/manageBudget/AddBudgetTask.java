@@ -22,12 +22,15 @@ public class AddBudgetTask extends AsyncTask<Void, Void, Void> {
     @SuppressLint("StaticFieldLeak")
     private final Activity context;
     private final PrefRepository prefRepository;
+    private final BudgetListener listener;
 
     public AddBudgetTask(@NotNull Activity context,
-                         @NotNull PrefRepository prefRepository) {
+                         @NotNull PrefRepository prefRepository,
+                         BudgetListener listener) {
         super();
         this.context = context;
         this.prefRepository = prefRepository;
+        this.listener = listener;
     }
 
     @Nullable
@@ -38,4 +41,9 @@ public class AddBudgetTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        listener.budgetFetched();
+    }
 }

@@ -32,12 +32,16 @@ public class DialogAddMonthBudget extends Dialog {
 
     private PrefRepository prefRepository;
     private Activity activity;
+    private final BudgetListener listener;
 
 
-    public DialogAddMonthBudget(@NotNull Activity context, PrefRepository prefRepository) {
+    public DialogAddMonthBudget(@NotNull Activity context, PrefRepository prefRepository,
+                                BudgetListener listener) {
         super(context);
         this.prefRepository = prefRepository;
         this.activity = context;
+        this.listener = listener;
+
     }
 
 
@@ -76,7 +80,7 @@ public class DialogAddMonthBudget extends Dialog {
                 binding.inputBudget.setError("Please enter valid budget!");
                 return;
             }
-            new AddBudgetTask(activity, prefRepository).execute();
+            new AddBudgetTask(activity, prefRepository, listener).execute();
             dismiss();
         });
     }

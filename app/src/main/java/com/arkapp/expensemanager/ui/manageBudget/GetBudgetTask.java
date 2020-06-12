@@ -49,7 +49,7 @@ public class GetBudgetTask extends AsyncTask<Void, Void, List<Budget>> {
             CURRENT_BUDGET = data.get(0).getValue();
             listener.budgetFetched();
         } else {
-            new DialogAddMonthBudget(context, prefRepository).show();
+            new DialogAddMonthBudget(context, prefRepository, listener).show();
         }
     }
 
