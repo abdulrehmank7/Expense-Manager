@@ -283,6 +283,9 @@ public class HomeFragment extends Fragment implements ExpenseListener {
             case R.id.manageBudget:
                 findNavController(this).navigate(R.id.action_homeFragment_to_manageBudgetFragment);
                 return true;
+            case R.id.currencyConversion:
+                findNavController(this).navigate(R.id.action_homeFragment_to_currencyConversionFragment);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

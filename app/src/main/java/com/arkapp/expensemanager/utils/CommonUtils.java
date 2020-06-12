@@ -75,4 +75,17 @@ public class CommonUtils {
 
         return filteredData;
     }
+
+
+    public static double getCurrencyResult(Double enteredAmount) {
+        double baseCurrencyUsdValue = Constants.CURRENCY_BASE.getUsdValue();
+        double oneUsdToBaseCurrency = 1 / baseCurrencyUsdValue;
+
+        double resultCurrencyUsdValue = Constants.CURRENCY_RESULT.getUsdValue();
+        double oneUsdToResultCurrency = 1 / resultCurrencyUsdValue;
+
+        double oneBaseCurrencyToResultCurrency = oneUsdToResultCurrency / oneUsdToBaseCurrency;
+
+        return oneBaseCurrencyToResultCurrency * enteredAmount;
+    }
 }

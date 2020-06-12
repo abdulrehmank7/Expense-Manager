@@ -66,5 +66,8 @@ dependencies {
     //Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    implementation 'com.github.davidmigloz:number-keyboard:3.0.0'
+
+
 
 }

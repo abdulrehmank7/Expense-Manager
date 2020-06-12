@@ -26,4 +26,8 @@
     <string name="enter_budget">Enter Budget</string>
     <string name="done">Done</string>
     <string name="change_budget">Change Budget</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="base_currency">Base Currency</string>
+    <string name="currency_result">Currency Result</string>
+    <string name="choose_currency">Choose Currency</string>
 </resources>

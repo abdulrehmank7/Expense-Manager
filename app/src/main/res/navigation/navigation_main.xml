@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_homeFragment_to_manageBudgetFragment"
             app:destination="@id/manageBudgetFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_currencyConversionFragment"
+            app:destination="@id/currencyConversionFragment" />
     </fragment>
     <fragment
         android:id="@+id/addExpenseFragment"
@@ -54,5 +57,10 @@
         android:name="com.arkapp.expensemanager.ui.manageBudget.ManageBudgetFragment"
         android:label="Manage Budget"
         tools:layout="@layout/fragment_manage_budget" />
+    <fragment
+        android:id="@+id/currencyConversionFragment"
+        android:name="com.arkapp.expensemanager.ui.currencyConversion.CurrencyConversionFragment"
+        android:label="Currency Conversion"
+        tools:layout="@layout/fragment_currency_conversion" />
 
 </navigation>
