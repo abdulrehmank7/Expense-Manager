@@ -13,16 +13,23 @@
         android:scaleType="centerCrop"
         android:src="@drawable/img_money" />
 
-    <ImageView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="108dp"
         android:layout_height="108dp"
         android:layout_marginBottom="8dp"
-        android:elevation="8dp"
-        android:src="@mipmap/ic_launcher"
+        app:cardCornerRadius="54dp"
+        app:cardElevation="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="8dp"
+            android:src="@mipmap/ic_launcher" />
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/textView5"

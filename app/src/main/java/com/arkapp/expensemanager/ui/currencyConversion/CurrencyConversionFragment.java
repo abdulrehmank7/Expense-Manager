@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.arkapp.expensemanager.data.models.CurrencyType;
 import com.arkapp.expensemanager.databinding.BottomeSheetSelectCurrencyBinding;
 import com.arkapp.expensemanager.databinding.FragmentCurrencyConversionBinding;
 import com.davidmiguel.numberkeyboard.NumberKeyboardListener;
@@ -43,7 +44,7 @@ public class CurrencyConversionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setCurrencySymbol();
+        setCurrency();
 
         BottomeSheetSelectCurrencyBinding dialogBinding = getBottomView();
 
@@ -72,7 +73,15 @@ public class CurrencyConversionFragment extends Fragment {
         });
 
         dialog.setOnDismissListener(dialog -> {
-            setCurrencySymbol();
+            setCurrency();
+        });
+
+        binding.ivSwap.setOnClickListener(v -> {
+            if (isDoubleClicked(500)) return;
+            CurrencyType temp = CURRENCY_BASE;
+            CURRENCY_BASE = CURRENCY_RESULT;
+            CURRENCY_RESULT = temp;
+            setCurrency();
         });
 
         binding.etBaseValue.addTextChangedListener(new TextWatcher() {
@@ -117,7 +126,7 @@ public class CurrencyConversionFragment extends Fragment {
         });
     }
 
-    private void setCurrencySymbol() {
+    private void setCurrency() {
         if (CURRENCY_BASE != null) {
             binding.tvBaseCurrency.setText(CURRENCY_BASE.getSymbol());
         }

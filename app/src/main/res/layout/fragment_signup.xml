@@ -10,16 +10,24 @@
         android:background="@drawable/bg_gradient_color_primary"
         tools:context=".ui.signup.SignUpFragment">
 
-        <ImageView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/logo"
             android:layout_width="108dp"
             android:layout_height="108dp"
             android:layout_margin="18dp"
-            android:src="@mipmap/ic_launcher"
+            app:cardCornerRadius="54dp"
+            app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="8dp"
+                android:src="@mipmap/ic_launcher" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/textView6"

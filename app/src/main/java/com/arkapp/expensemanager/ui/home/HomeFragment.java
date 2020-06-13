@@ -1,5 +1,6 @@
 package com.arkapp.expensemanager.ui.home;
 
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,6 +49,8 @@ import static com.arkapp.expensemanager.utils.Constants.TOTAL_EXPENSES;
 import static com.arkapp.expensemanager.utils.Constants.getAllExpenseType;
 import static com.arkapp.expensemanager.utils.ViewUtilsKt.getColorRes;
 import static com.arkapp.expensemanager.utils.ViewUtilsKt.getDrawableRes;
+import static com.arkapp.expensemanager.utils.ViewUtilsKt.showAlertDialog;
+import static com.arkapp.expensemanager.utils.ViewUtilsKt.toastShort;
 
 public class HomeFragment extends Fragment implements ExpenseListener {
 
@@ -285,6 +288,14 @@ public class HomeFragment extends Fragment implements ExpenseListener {
                 return true;
             case R.id.currencyConversion:
                 findNavController(this).navigate(R.id.action_homeFragment_to_currencyConversionFragment);
+                return true;
+            case R.id.logout:
+                showAlertDialog(requireContext(), "Logout", "Do you want to logout?", "Logout", "Cancel", (DialogInterface.OnClickListener) ((dialog, $noName_1) -> {
+                    prefRepository.clearData();
+                    findNavController(HomeFragment.this).navigate(R.id.action_homeFragment_to_splashFragment);
+                    toastShort(requireContext(), "Logged Out!");
+                    dialog.dismiss();
+                }));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
